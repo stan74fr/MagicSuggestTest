@@ -18,7 +18,7 @@
 <div class="field">
    <%= f.label :status %><br>
    <% if @task.try(:status).nil? !=true%>
-   <%= f.hidden_field :status_selected, value: "",data: { id: @status.id, name: @status.name } %>
+   <%= f.hidden_field :status_selected, value: "",data: {name: @status.name } %>
    <%else%>
    <%= f.hidden_field :status_selected, value: "" %>
    <% end %>
@@ -46,7 +46,7 @@ $(function() {
       method: 'get',
       useTabKey: true,
       displayField: 'name',
-      valueField: 'id',
+      valueField: 'name',
       allowFreeEntries: false,
       toggleOnClick: true,
       useZebraStyle: true,
@@ -57,17 +57,17 @@ $(function() {
       noSuggestionText: 'No result matching the term {{query}}'
 
    });
-   if (typeof $("#task_status_selected").data("id") != 'undefined') {
-      var statusId = $("#task_status_selected").data("id");
+   if (typeof $("#task_status_selected").data("name") != 'undefined') {
+      // var statusId = $("#task_status_selected").data("id");
       var statusName = $("#task_status_selected").data("name");
-      var StatusObject = { id: statusId, name: statusName} ;
+      var StatusObject = { name: statusName} ;
       msstatus.setValue([StatusObject]);
    };
 
    $(msstatus).on('selectionchange', function(e,m){
      var values = JSON.stringify(this.getValue());
      if (values == "[]") {
-       var StatusObject = { id: "", name: ""} ;
+       var StatusObject = { name: ""} ;
        msstatus.setValue([StatusObject]);
      }
    });

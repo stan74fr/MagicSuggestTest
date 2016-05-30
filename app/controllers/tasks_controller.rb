@@ -27,7 +27,7 @@ class TasksController < ApplicationController
       end
       begin
          if @task.try(:status).nil? !=true
-            @status = Status.find(@task.status)
+            @status = Status.find_by_name(@task.status)
          end
       rescue
       end

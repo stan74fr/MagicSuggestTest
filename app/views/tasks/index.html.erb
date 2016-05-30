@@ -16,7 +16,7 @@
     <% @tasks.each do |task| %>
       <tr>
         <td><%= task.title %></td>
-        <td><% if task.try(:status).nil?%> <%=""%> <%else%> <%=Status.find(task.status).name %><%end%></td>
+        <td><% if task.try(:status).nil?%> <%=""%> <%else%> <%=task.status%><%end%></td>
         <td><% if task.try(:employee).nil?%> <%=""%> <%else%> <%=Employee.find(task.employee).email %><%end%></td>
         <td><%= link_to 'Show', task %></td>
         <td><%= link_to 'Edit', edit_task_path(task) %></td>
