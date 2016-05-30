@@ -1,0 +1,113 @@
+<%= form_for(@task) do |f| %>
+<% if @task.errors.any? %>
+<div id="error_explanation">
+   <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+   <ul>
+      <% @task.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end %>
+   </ul>
+</div>
+<% end %>
+
+<div class="field">
+   <%= f.label :title %><br>
+   <%= f.text_field :title %>
+</div>
+<div class="field">
+   <%= f.label :status %><br>
+   <% if @task.try(:status).nil? !=true%>
+   <%= f.hidden_field :status_selected, value: "",data: { id: @status.id, name: @status.name } %>
+   <%else%>
+   <%= f.hidden_field :status_selected, value: "" %>
+   <% end %>
+   <!-- <%= f.number_field :status %> -->
+   <%= f.text_field :status, id:'status' %>
+</div>
+<div class="field">
+   <%= f.label :employee %><br>
+   <% if @task.try(:employee).nil? !=true%>
+   <%= f.hidden_field :employee_selected, value: "",data: { id: @employee.id, email: @employee.email } %>
+   <%else%>
+   <%= f.hidden_field :employee_selected, value: "" %>
+   <% end %>
+   <!-- <%= f.number_field :employee %> -->
+   <%= f.text_field :employee, id:'employee' %>
+</div>
+<div class="actions">
+   <%= f.submit %>
+</div>
+<% end %>
+<script>
+$(function() {
+   var msstatus = $('#status').magicSuggest({
+      data: '/statuses.json',
+      method: 'get',
+      useTabKey: true,
+      displayField: 'name',
+      valueField: 'id',
+      allowFreeEntries: false,
+      toggleOnClick: true,
+      useZebraStyle: true,
+      maxSelection: 1,
+      maxEntryLength: 15,
+      maxSuggestions: 5,
+      resultAsString: false,
+      noSuggestionText: 'No result matching the term {{query}}'
+
+   });
+   if (typeof $("#task_status_selected").data("id") != 'undefined') {
+      var statusId = $("#task_status_selected").data("id");
+      var statusName = $("#task_status_selected").data("name");
+      var StatusObject = { id: statusId, name: statusName} ;
+      msstatus.setValue([StatusObject]);
+   };
+
+   $(msstatus).on('selectionchange', function(e,m){
+     var values = JSON.stringify(this.getValue());
+     if (values == "[]") {
+       var StatusObject = { id: "", name: ""} ;
+       msstatus.setValue([StatusObject]);
+     }
+   });
+
+});
+</script>
+<script>
+
+$(function() {
+   var msemployee = $('#employee').magicSuggest({
+      data: '/employees.json',
+      method: 'get',
+      useTabKey: true,
+      displayField: 'email',
+      valueField: 'id',
+      allowFreeEntries: false,
+      toggleOnClick: true,
+      useZebraStyle: true,
+      maxSelection: 1,
+      maxEntryLength: 15,
+      maxSuggestions: 5,
+      resultAsString: false,
+      noSuggestionText: 'No result matching the term {{query}}'
+
+   });
+
+   if (typeof $("#task_employee_selected").data("id") != 'undefined') {
+      var employeeId = $("#task_employee_selected").data("id");
+      var employeeEmail = $("#task_employee_selected").data("email");
+      var EmployeeObject = { id: employeeId, email: employeeEmail} ;
+      msemployee.setValue([EmployeeObject]);
+   };
+
+   $(msemployee).on('selectionchange', function(e,m){
+     var values = JSON.stringify(this.getValue());
+     if (values == "[]") {
+       var EmployeeObject = { id: "", email: ""} ;
+       msemployee.setValue([EmployeeObject]);
+     }
+   });
+
+});
+</script>
