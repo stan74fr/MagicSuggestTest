@@ -17,8 +17,8 @@
 </div>
 <div class="field">
    <%= f.label :status %><br>
-   <% if @task.try(:status).nil? !=true%>
-   <%= f.hidden_field :status_selected, value: "",data: {name: @status.name } %>
+   <% if @task.try(:status).nil? !=true && @status.try(:name).nil? !=true%>
+   <%= f.hidden_field :status_selected, value: "",data: {name: @status.try(:name)} %>
    <%else%>
    <%= f.hidden_field :status_selected, value: "" %>
    <% end %>
@@ -28,7 +28,7 @@
 <div class="field">
    <%= f.label :employee %><br>
    <% if @task.try(:employee).nil? !=true%>
-   <%= f.hidden_field :employee_selected, value: "",data: { id: @employee.id, email: @employee.email } %>
+   <%= f.hidden_field :employee_selected, value: "",data: { id: @employee.try(:id), email: @employee.try(:email) } %>
    <%else%>
    <%= f.hidden_field :employee_selected, value: "" %>
    <% end %>
@@ -58,8 +58,8 @@ $(function() {
 
    });
    if (typeof $("#task_status_selected").data("name") != 'undefined') {
-      // var statusId = $("#task_status_selected").data("id");
       var statusName = $("#task_status_selected").data("name");
+      // var statusId = $("#task_status_selected").data("id");
       var StatusObject = { name: statusName} ;
       msstatus.setValue([StatusObject]);
    };

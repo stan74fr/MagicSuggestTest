@@ -827,11 +827,14 @@
                             data: params,
                             beforeSend: cfg.beforeSend,
                             success: function(asyncData){
-                                json = typeof(asyncData) === 'string' ? JSON.parse(asyncData) : asyncData;
-                                self._processSuggestions(json);
+                              //   json = typeof(asyncData) === 'string' ? JSON.parse(asyncData) : asyncData;
+                               json = typeof(asyncData) === 'string' ? asyncData : asyncData;
+                                self._processSuggestions(json); //modified from original
                                 $(ms).trigger('load', [ms, json]);
                                 if(self._asyncValues){
-                                    ms.setValue(typeof(self._asyncValues) === 'string' ? JSON.parse(self._asyncValues) : self._asyncValues);
+                                    // ms.setValue(typeof(self._asyncValues) === 'string' ? JSON.parse(self._asyncValues) : self._asyncValues);
+                                    ms.setValue(typeof(self._asyncValues) === 'string' ? (self._asyncValues) : self._asyncValues); //modified from original
+
                                     self._renderSelection();
                                     delete(self._asyncValues);
                                 }
@@ -1548,7 +1551,8 @@
             var def = {};
             // set values from DOM container element
             $.each(this.attributes, function(i, att){
-                def[att.name] = att.name === 'value' && att.value !== '' ? JSON.parse(att.value) : att.value;
+               //  def[att.name] = att.name === 'value' && att.value !== '' ? JSON.parse(att.value) : att.value; original
+               def[att.name] = att.name === 'value' && att.value !== '' ? att.value : att.value; //modified
             });
 
             var field = new MagicSuggest(this, $.extend([], $.fn.magicSuggest.defaults, options, def));
