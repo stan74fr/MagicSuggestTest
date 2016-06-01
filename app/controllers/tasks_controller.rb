@@ -20,6 +20,12 @@ class TasksController < ApplicationController
    # GET /tasks/1/edit
    def edit
       begin
+         if @task.try(:title).nil? !=true
+         @title= params[:titleName]
+         end
+      rescue
+      end
+      begin
          if @task.try(:employee).nil? !=true
             @employee = Employee.find(@task.employee)
          end
@@ -32,7 +38,7 @@ class TasksController < ApplicationController
       rescue
       end
    end
-
+byebug
    # POST /tasks
    # POST /tasks.json
    def create

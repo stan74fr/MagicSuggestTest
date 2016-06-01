@@ -1572,3 +1572,12 @@
 this.reload = function () {
 self._renderSelection();
 };
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+};

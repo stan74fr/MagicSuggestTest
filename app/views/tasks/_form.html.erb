@@ -13,7 +13,12 @@
 
 <div class="field">
    <%= f.label :title %><br>
-   <%= f.text_field :title %>
+   <% if @task.try(:title).nil? !=true%>
+   <%= f.hidden_field :title_selected, value: "",data: {name: @task.title} %>
+   <%else%>
+   <%= f.hidden_field :title_selected, value: "" %>
+   <% end %>
+   <%= f.text_field :title, id:'title' %>
 </div>
 <div class="field">
    <%= f.label :status %><br>
@@ -35,10 +40,48 @@
    <!-- <%= f.number_field :employee %> -->
    <%= f.text_field :employee, id:'employee' %>
 </div>
+
 <div class="actions">
    <%= f.submit %>
 </div>
 <% end %>
+<script>
+$(function() {
+   var mstitle = $('#title').magicSuggest({
+      // data: '/statuses.json',
+      // method: 'get',
+      useTabKey: true,
+      // displayField: 'name',
+      // valueField: 'name',
+      allowFreeEntries: true,
+      // toggleOnClick: true,
+      useZebraStyle: true,
+      maxSelection: 1,
+      maxEntryLength: 15,
+      maxSuggestions: 5,
+      resultAsString: false
+      // noSuggestionText: 'No result matching the term {{query}}'
+
+   });
+   if (typeof $("#task_title_selected").data("name") != 'undefined') {
+      var titleName = $("#task_title_selected").data("name");
+      // var statusId = $("#task_status_selected").data("id");
+      var TitleObject = { name: titleName} ;
+      msstatus.setValue([JSON.parse(TitleObject)]);
+   };
+
+   $(mstitle).on('blur', function(e,m){
+     var values = JSON.stringify(this.getValue());
+     if (values == "") {
+       var TitleObject = {name: ""} ;
+      msstatus.setValue([JSON.parse(TitleObject)]);
+   };
+
+});
+});
+
+
+</script>
 <script>
 $(function() {
    var msstatus = $('#status').magicSuggest({
@@ -110,4 +153,5 @@ $(function() {
    });
 
 });
+
 </script>

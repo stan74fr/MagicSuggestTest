@@ -15,7 +15,7 @@
   <tbody>
     <% @tasks.each do |task| %>
       <tr>
-        <td><%= task.title %></td>
+        <td><% if task.try(:title).nil?%> <%=""%> <%else%> <%=task.title%><%end%></td>
         <td><% if task.try(:status).nil?%> <%=""%> <%else%> <%=task.status%><%end%></td>
         <td><% if task.try(:employee).nil?%> <%=""%> <%else%> <%=Employee.find(task.employee).email %><%end%></td>
         <td><%= link_to 'Show', task %></td>

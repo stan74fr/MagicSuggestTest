@@ -7,12 +7,12 @@
 
 <p>
   <strong>Status:</strong>
-  <%= Status.find(@task.status).name %>
+  <%=@task.status%>
 </p>
 
 <p>
   <strong>Employee:</strong>
-  <%= Employee.find(@task.employee).email %>
+  <%= @task.employee %>
 </p>
 
 
