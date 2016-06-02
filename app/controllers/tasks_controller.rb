@@ -21,7 +21,7 @@ class TasksController < ApplicationController
    def edit
       begin
          if @task.try(:title).nil? !=true
-         @title= params[:titleName]
+         @title= @task.title
          end
       rescue
       end
@@ -37,8 +37,9 @@ class TasksController < ApplicationController
          end
       rescue
       end
+# byebug
    end
-byebug
+
    # POST /tasks
    # POST /tasks.json
    def create
