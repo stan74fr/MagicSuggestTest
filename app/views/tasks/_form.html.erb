@@ -48,32 +48,8 @@
 <script>
 $(function() {
    var mstitle = $('#title').magicSuggest({
-
-      useTabKey: true,
       allowFreeEntries: true,
-      // toggleOnClick: true,
-      useZebraStyle: true,
-      maxSelection: 1,
-      maxEntryLength: 15,
-      maxSuggestions: 5,
-      resultAsString: false
-
-
    });
-   if (typeof $("#task_title_selected").data("name") != 'undefined') {
-      var titleName = $("#task_title_selected").data("name");
-      var TitleObject = titleName ;
-      mstitle.setValue([TitleObject]);
-   };
-
-   $(mstitle).on('blur', function(e,m){
-     var values = JSON.stringify(this.getValue());
-     if (values == "[]") {
-       var TitleObject = {""} ;
-      mstitle.setValue([TitleObject]);
-   };
-
-});
 });
 
 
