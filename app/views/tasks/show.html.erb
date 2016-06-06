@@ -1,20 +1,18 @@
-<p id="notice"><%= notice %></p>
+<div class="container">
 
-<p>
-  <strong>Title:</strong>
-  <%= @task.title %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%=@task.status%>
-</p>
-
-<p>
-  <strong>Employee:</strong>
-  <%= @task.employee %>
-</p>
-
+<div class="form-group">
+   <strong><%= "Title" %></strong><br>
+    <%=@task.title%>
+</div>
+<div class="form-group">
+   <strong><%= "Status" %></strong><br>
+   <% if @task.try(:status).nil?%> <%=""%> <%else%> <%=@task.status%><%end%>
+</div>
+<div class="form-group">
+   <strong><%= "Employee" %></strong><br>
+   <% if @task.try(:employee).nil?%> <%=""%> <%else%> <%=Employee.find(@task.employee).email %><%end%>
+</div>
 
 <%= link_to 'Edit', edit_task_path(@task) %> |
 <%= link_to 'Back', tasks_path %>
+</div>

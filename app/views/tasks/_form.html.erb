@@ -11,118 +11,31 @@
 </div>
 <% end %>
 
-<div class="field">
-   <%= f.label :title %><br>
-   <% if @task.try(:title).nil? !=true%>
-   <%= f.hidden_field :title_selected, value: "",data: {name: @task.try(:title)} %>
-   <%else%>
-   <%= f.hidden_field :title_selected, value: "" %>
-   <% end %>
-   <%= f.text_field :title, id:'title' %>
+<div class="form-group">
+   <%= f.label :title, "Title*  (free input)" %><br>
+   <%= f.text_field :title, id:'title', class:'form-control', required: true %>
 </div>
-<div class="field">
-   <%= f.label :status %><br>
-   <% if @task.try(:status).nil? !=true && @status.try(:name).nil? !=true%>
+<div class="form-group">
+   <%= f.label :status, "Status (select from list)" %><br>
    <%= f.hidden_field :status_selected, value: "",data: {name: @status.try(:name)} %>
-   <%else%>
-   <%= f.hidden_field :status_selected, value: "" %>
-   <% end %>
-   <!-- <%= f.number_field :status %> -->
-   <%= f.text_field :status, id:'status' %>
+   <%= f.text_field :status, id:'status', class:'form-control' %>
 </div>
-<div class="field">
-   <%= f.label :employee %><br>
-   <% if @task.try(:employee).nil? !=true && @employee.try(:email).nil? !=true%>
-   <%= f.hidden_field :employee_selected, value: "",data: { id: @employee.id, email: @employee.email } %>
-   <%else%>
-   <%= f.hidden_field :employee_selected, value: "" %>
-   <% end %>
-   <!-- <%= f.number_field :employee %> -->
-   <%= f.text_field :employee, id:'employee' %>
+<div class="form-group">
+   <%= f.label :employee, "Employee (select from list)" %><br>
+   <%= f.hidden_field :employee_selected, value: "",data: { id: @employee.try(:id), email: @employee.try(:email) } %>
+
+   <%= f.text_field :employee, id:'employee', class:'form-control' %>
 </div>
 
 <div class="actions">
-   <%= f.submit %>
+   <%= f.submit "Send", class: "btn btn-primary" %>
 </div>
 <% end %>
+
 <script>
-$(function() {
-   var mstitle = $('#title').magicSuggest({
-      allowFreeEntries: true,
-   });
-});
-
-
-</script>
-<script>
-$(function() {
-   var msstatus = $('#status').magicSuggest({
-      data: '/statuses.json',
-      method: 'get',
-      useTabKey: true,
-      displayField: 'name',
-      valueField: 'name',
-      allowFreeEntries: false,
-      toggleOnClick: true,
-      useZebraStyle: true,
-      maxSelection: 1,
-      maxEntryLength: 15,
-      maxSuggestions: 5,
-      resultAsString: false,
-      noSuggestionText: 'No result matching the term {{query}}'
-
-   });
-   if (typeof $("#task_status_selected").data("name") != 'undefined') {
-      var statusName = $("#task_status_selected").data("name");
-      var StatusObject = { name: statusName} ;
-      msstatus.setValue([StatusObject]);
-   };
-
-   $(msstatus).on('selectionchange', function(e,m){
-     var values = JSON.stringify(this.getValue());
-     if (values == "[]") {
-       var StatusObject = { name: ""} ;
-       msstatus.setValue([StatusObject]);
-     }
-   });
-
-});
-</script>
-<script>
-
-$(function() {
-   var msemployee = $('#employee').magicSuggest({
-      data: '/employees.json',
-      method: 'get',
-      useTabKey: true,
-      displayField: 'email',
-      valueField: 'id',
-      allowFreeEntries: false,
-      toggleOnClick: true,
-      useZebraStyle: true,
-      maxSelection: 1,
-      maxEntryLength: 15,
-      maxSuggestions: 5,
-      resultAsString: false,
-      noSuggestionText: 'No result matching the term {{query}}'
-
-   });
-
-   if (typeof $("#task_employee_selected").data("id") != 'undefined') {
-      var employeeId = $("#task_employee_selected").data("id");
-      var employeeEmail = $("#task_employee_selected").data("email");
-      var EmployeeObject = { id: employeeId, email: employeeEmail} ;
-      msemployee.setValue([EmployeeObject]);
-   };
-
-   $(msemployee).on('selectionchange', function(e,m){
-     var values = JSON.stringify(this.getValue());
-     if (values == "[]") {
-       var EmployeeObject = { id: "", email: ""} ;
-       msemployee.setValue([EmployeeObject]);
-     }
-   });
-
-});
-
+  $(function() {
+    TaskManager.init("employee")
+    TaskManager.init("status")
+    TaskManager.init("title")
+  });
 </script>
